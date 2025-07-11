@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as ExplorePublicKnowledgeRouteImport } from './routes/explore-public-knowledge'
 import { Route as AuthenticateSuccessRouteImport } from './routes/authenticate-success'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicSpaceSpaceIdRouteImport } from './routes/public-space/$space-id'
@@ -19,11 +18,6 @@ import { Route as PrivateSpaceSpaceIdRouteImport } from './routes/private-space/
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExplorePublicKnowledgeRoute = ExplorePublicKnowledgeRouteImport.update({
-  id: '/explore-public-knowledge',
-  path: '/explore-public-knowledge',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticateSuccessRoute = AuthenticateSuccessRouteImport.update({
@@ -50,7 +44,6 @@ const PrivateSpaceSpaceIdRoute = PrivateSpaceSpaceIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/authenticate-success': typeof AuthenticateSuccessRoute
-  '/explore-public-knowledge': typeof ExplorePublicKnowledgeRoute
   '/login': typeof LoginRoute
   '/private-space/$space-id': typeof PrivateSpaceSpaceIdRoute
   '/public-space/$space-id': typeof PublicSpaceSpaceIdRoute
@@ -58,7 +51,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/authenticate-success': typeof AuthenticateSuccessRoute
-  '/explore-public-knowledge': typeof ExplorePublicKnowledgeRoute
   '/login': typeof LoginRoute
   '/private-space/$space-id': typeof PrivateSpaceSpaceIdRoute
   '/public-space/$space-id': typeof PublicSpaceSpaceIdRoute
@@ -67,7 +59,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/authenticate-success': typeof AuthenticateSuccessRoute
-  '/explore-public-knowledge': typeof ExplorePublicKnowledgeRoute
   '/login': typeof LoginRoute
   '/private-space/$space-id': typeof PrivateSpaceSpaceIdRoute
   '/public-space/$space-id': typeof PublicSpaceSpaceIdRoute
@@ -77,7 +68,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/authenticate-success'
-    | '/explore-public-knowledge'
     | '/login'
     | '/private-space/$space-id'
     | '/public-space/$space-id'
@@ -85,7 +75,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/authenticate-success'
-    | '/explore-public-knowledge'
     | '/login'
     | '/private-space/$space-id'
     | '/public-space/$space-id'
@@ -93,7 +82,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/authenticate-success'
-    | '/explore-public-knowledge'
     | '/login'
     | '/private-space/$space-id'
     | '/public-space/$space-id'
@@ -102,7 +90,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticateSuccessRoute: typeof AuthenticateSuccessRoute
-  ExplorePublicKnowledgeRoute: typeof ExplorePublicKnowledgeRoute
   LoginRoute: typeof LoginRoute
   PrivateSpaceSpaceIdRoute: typeof PrivateSpaceSpaceIdRoute
   PublicSpaceSpaceIdRoute: typeof PublicSpaceSpaceIdRoute
@@ -115,13 +102,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/explore-public-knowledge': {
-      id: '/explore-public-knowledge'
-      path: '/explore-public-knowledge'
-      fullPath: '/explore-public-knowledge'
-      preLoaderRoute: typeof ExplorePublicKnowledgeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/authenticate-success': {
@@ -158,7 +138,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticateSuccessRoute: AuthenticateSuccessRoute,
-  ExplorePublicKnowledgeRoute: ExplorePublicKnowledgeRoute,
   LoginRoute: LoginRoute,
   PrivateSpaceSpaceIdRoute: PrivateSpaceSpaceIdRoute,
   PublicSpaceSpaceIdRoute: PublicSpaceSpaceIdRoute,
