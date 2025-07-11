@@ -1,4 +1,4 @@
-import { Address, Schedule } from '@/schema';
+import { Schedule } from '@/schema';
 import { HypergraphSpaceProvider, useQuery, useSpace } from '@graphprotocol/hypergraph-react';
 import { createFileRoute } from '@tanstack/react-router';
 
