@@ -2,11 +2,16 @@ import { Button } from '@/components/ui/button';
 import { Address, Schedule } from '@/schema';
 import {
   HypergraphSpaceProvider,
+  preparePublish,
+  publishOps,
   useCreateEntity,
+  useHypergraphApp,
   useHypergraphAuth,
   useQuery,
   useSpace,
+  useSpaces,
 } from '@graphprotocol/hypergraph-react';
+import { Entity } from '@graphprotocol/hypergraph/entity';
 import { createFileRoute } from '@tanstack/react-router';
 import React from 'react';
 import { useState } from 'react';
@@ -28,6 +33,9 @@ function RouteComponent() {
 function PrivateSpace() {
   const { name, ready } = useSpace({ mode: 'private' });
   const { identity } = useHypergraphAuth();
+  const { data: publicSpaces } = useSpaces({ mode: 'public' });
+  const { getSmartSessionClient } = useHypergraphApp();
+  const [selectedSpaces, setSelectedSpaces] = useState<Record<string, string>>({});
 
   if (!ready || !identity) {
     return (
@@ -82,6 +90,37 @@ function PrivateSpace() {
     setStartTime('');
     setEndTime('');
     setLocation('');
+  };
+
+  const publishToPublicSpace = async (schedule: Entity<typeof Schedule>) => {
+    const selectedSpace = selectedSpaces[schedule.id];
+    if (!selectedSpace) {
+      alert('Please select a public space');
+      return;
+    }
+
+    try {
+      const { ops } = await preparePublish({
+        entity: schedule,
+        publicSpace: selectedSpace,
+      });
+
+      const smartSessionClient = await getSmartSessionClient();
+      if (!smartSessionClient) throw new Error('No session client');
+
+      const result = await publishOps({
+        ops,
+        space: selectedSpace,
+        name: 'Publish Schedule',
+        walletClient: smartSessionClient,
+      });
+
+      console.log('Published:', result);
+      alert('Schedule published to public space!');
+    } catch (err) {
+      console.error('Publish failed', err);
+      alert('Failed to publish schedule');
+    }
   };
 
   return (
@@ -153,6 +192,27 @@ function PrivateSpace() {
                 <div className="text-sm text-gray-500">
                   {new Date(Number(schedule.startTime)).toLocaleString()} →{' '}
                   {new Date(Number(schedule.endTime)).toLocaleString()}
+                </div>
+
+                <div className="mt-3">
+                  <select
+                    value={selectedSpaces[schedule.id] || ''}
+                    onChange={(e) => setSelectedSpaces((prev) => ({ ...prev, [schedule.id]: e.target.value }))}
+                    className="border p-2 mr-2"
+                  >
+                    <option value="">Select public space</option>
+                    {publicSpaces?.map((space) => (
+                      <option key={space.id} value={space.id}>
+                        {space.name}
+                      </option>
+                    ))}
+                  </select>
+                  <Button
+                    onClick={() => publishToPublicSpace(schedule)}
+                    className="bg-green-600 text-white px-3 py-1 rounded"
+                  >
+                    Publish
+                  </Button>
                 </div>
               </div>
             ))}
