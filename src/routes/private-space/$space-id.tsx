@@ -1,5 +1,11 @@
-import { Schedule } from '@/schema';
-import { HypergraphSpaceProvider, useCreateEntity, useQuery, useSpace } from '@graphprotocol/hypergraph-react';
+import { Address, Schedule } from '@/schema';
+import {
+  HypergraphSpaceProvider,
+  useCreateEntity,
+  useHypergraphAuth,
+  useQuery,
+  useSpace,
+} from '@graphprotocol/hypergraph-react';
 import { createFileRoute } from '@tanstack/react-router';
 import React from 'react';
 import { useState } from 'react';
@@ -20,8 +26,14 @@ function RouteComponent() {
 
 function PrivateSpace() {
   const { name, ready } = useSpace({ mode: 'private' });
+  const { identity } = useHypergraphAuth();
 
-  if (!ready) return <div>Loading...</div>;
+  if (!ready || !identity) return <div>Loading...</div>;
+
+  const { data: addressData } = useQuery(Address, {
+    filter: { address: { is: identity.address || '' } },
+    mode: 'private',
+  });
 
   const { data: schedules } = useQuery(Schedule, { mode: 'private' });
   const createSchedule = useCreateEntity(Schedule);
@@ -41,6 +53,7 @@ function PrivateSpace() {
       startTime: new Date(startTime),
       endTime: new Date(endTime),
       location,
+      address: [addressData[0].id],
     });
 
     setScheduleName('');
@@ -54,6 +67,7 @@ function PrivateSpace() {
     <div className="">
       <h1>{name}</h1>
       <React.Fragment>
+        <h3>Viewing as "{addressData[0].name}"</h3>
         <form onSubmit={handleCreateSchedule} className="flex flex-col gap-2 max-w-md">
           <input
             type="text"
