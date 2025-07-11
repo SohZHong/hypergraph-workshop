@@ -29,8 +29,16 @@ function PrivateSpace() {
   const { name, ready } = useSpace({ mode: 'private' });
   const { identity } = useHypergraphAuth();
 
-  if (!ready || !identity) return <div>Loading...</div>;
-
+  if (!ready || !identity) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600 text-lg">Loading space...</p>
+        </div>
+      </div>
+    );
+  }
   const { data: addressData } = useQuery(Address, {
     filter: { address: { is: identity.address || '' } },
     mode: 'private',
