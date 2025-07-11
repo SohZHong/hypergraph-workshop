@@ -1,4 +1,4 @@
-import { Address } from '@/schema';
+import { Address, Schedule } from '@/schema';
 import { HypergraphSpaceProvider, useQuery, useSpace } from '@graphprotocol/hypergraph-react';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -18,7 +18,7 @@ function RouteComponent() {
 
 function PublicSpace() {
   const { ready, name } = useSpace({ mode: 'public' });
-  const { data: addresses } = useQuery(Address, { mode: 'public' });
+  const { data: schedules } = useQuery(Schedule, { mode: 'public' });
 
   if (!ready) {
     return (
@@ -47,14 +47,14 @@ function PublicSpace() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow-sm border border-slate-200">
           <div className="px-6 py-4 border-b border-slate-200">
-            <h2 className="text-xl font-semibold text-slate-900">Addresses</h2>
+            <h2 className="text-xl font-semibold text-slate-900">Schedules</h2>
             <p className="text-slate-600 text-sm mt-1">
-              {addresses ? `${addresses.length} addresses found` : 'Loading addresses...'}
+              {schedules ? `${schedules.length} schedules found` : 'Loading schedules...'}
             </p>
           </div>
 
           <div className="p-6">
-            {!addresses ? (
+            {!schedules ? (
               <div className="space-y-3">
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="animate-pulse">
@@ -62,25 +62,25 @@ function PublicSpace() {
                   </div>
                 ))}
               </div>
-            ) : addresses.length > 0 ? (
+            ) : schedules.length > 0 ? (
               <div className="grid gap-3">
-                {addresses.map((address) => (
+                {schedules.map((schedule) => (
                   <div
-                    key={address.id}
+                    key={schedule.id}
                     className="group p-4 rounded-lg border border-slate-200 hover:border-slate-300 hover:shadow-sm transition-all duration-200 bg-slate-50 hover:bg-white"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                           <span className="text-blue-600 font-medium text-sm">
-                            {address.name.charAt(0).toUpperCase()}
+                            {schedule.name.charAt(0).toUpperCase()}
                           </span>
                         </div>
                         <div>
                           <h3 className="font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
-                            {address.name}
+                            {schedule.name}
                           </h3>
-                          <p className="text-sm text-slate-500">Address ID: {address.id}</p>
+                          <p className="text-sm text-slate-500">Schedule ID: {schedule.id}</p>
                         </div>
                       </div>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
@@ -110,8 +110,8 @@ function PublicSpace() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-slate-900 mb-2">No addresses found</h3>
-                <p className="text-slate-600">This space doesn't have any addresses yet.</p>
+                <h3 className="text-lg font-medium text-slate-900 mb-2">No schedule found</h3>
+                <p className="text-slate-600">This space doesn't have any schedules yet.</p>
               </div>
             )}
           </div>
