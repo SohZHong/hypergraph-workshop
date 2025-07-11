@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Address, Schedule } from '@/schema';
 import {
   HypergraphSpaceProvider,
@@ -90,9 +91,9 @@ function PrivateSpace() {
               onChange={(e) => setNickname(e.target.value)}
               className="border p-2"
             />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+            <Button type="submit" className="bg-blue-500 text-white px-4 py-2">
               Create Account
-            </button>
+            </Button>
           </form>
         </div>
       ) : (
@@ -132,9 +133,9 @@ function PrivateSpace() {
               onChange={(e) => setEndTime(e.target.value)}
               className="border p-2"
             />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+            <Button type="submit" className="bg-blue-500 text-white px-4 py-2">
               Add Schedule
-            </button>
+            </Button>
           </form>
           <div className="grid gap-3 mt-6">
             {schedules.map((schedule, index) => (
