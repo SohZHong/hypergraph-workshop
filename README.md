@@ -7,16 +7,12 @@ Welcome to the Hypergraph Calendar App! This is a simple decentralized calendar 
 - Invite others to join their **private space**
 - Accept invitations from others to view their private calendars
 
----
-
 ## Prerequisites
 
 - Node.js 18+ (recommended via [nvm](https://github.com/nvm-sh/nvm))
-- pnpm
-- Git
+- [`pnpm`](https://pnpm.io/installation)
+- [Git](https://git-scm.com/downloads)
 - An email account (used for auth in Hypergraph)
-
----
 
 ## Getting Started
 
@@ -211,8 +207,8 @@ function PrivateSpace() {
 #### What Each Section Does
 
 | Code Section                              | Explanation                                                               |
-| ----------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------- |
-| `useSpace({ mode: 'private' })`           | Loads the current                                                         | private space (your personal calendar). |
+| ----------------------------------------- | ------------------------------------------------------------------------- |
+| `useSpace({ mode: 'private' })`           | Loads the current private space (your personal calendar).                 |
 | `useQuery(Schedule, { mode: 'private' })` | Queries all Schedule entities created inside this private space.          |
 | `useCreateEntity(Schedule)`               | Lets us create a new schedule entity and store it into this space.        |
 | State variables (`useState`)              | Tracks form input fields for the schedule.                                |
@@ -739,6 +735,6 @@ Congratulations! Users can now:
 
 ## Credits
 
-This app was built using [Hypergraph](https://github.com/geobrowser/hypergraph-app-template) by The Graph Protocol.
+This app was built using the [Hypergraph Template](https://github.com/geobrowser/hypergraph-app-template) by The Graph Protocol.
 
 Happy building!
