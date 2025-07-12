@@ -34,8 +34,7 @@ function PrivateSpace() {
   const { name, ready } = useSpace({ mode: 'private' });
   const { identity } = useHypergraphAuth();
   const { data: publicSpaces } = useSpaces({ mode: 'public' });
-  const { getSmartSessionClient } = useHypergraphApp();
-  const [selectedSpaces, setSelectedSpaces] = useState<Record<string, string>>({});
+  const { getSmartSessionClient, inviteToSpace } = useHypergraphApp();
 
   if (!ready || !identity) {
     return (
@@ -62,6 +61,8 @@ function PrivateSpace() {
   const [startTime, setStartTime] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
   const [location, setLocation] = useState<string>();
+  const [inviteAddress, setInviteAddress] = useState<`0x${string}`>();
+  const [selectedSpaces, setSelectedSpaces] = useState<Record<string, string>>({});
 
   const hasAddress = addressData && addressData.length > 0;
 
@@ -90,6 +91,26 @@ function PrivateSpace() {
     setStartTime('');
     setEndTime('');
     setLocation('');
+  };
+
+  const handleInviteToSpace = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteAddress) return alert('No address provided');
+
+    try {
+      // To be addressed when update comes
+      // await inviteToSpace({
+      //   space: id,
+      //   invitee: {
+      //     accountAddress: inviteAddress,
+      //   },
+      // });
+      alert('Invitation Sent!');
+      setInviteAddress(undefined);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to send invitation');
+    }
   };
 
   const publishToPublicSpace = async (schedule: Entity<typeof Schedule>) => {
@@ -126,6 +147,22 @@ function PrivateSpace() {
   return (
     <div className="">
       <h1>{name}</h1>
+      {/* Invitations */}
+      <div className="mt-6">
+        <h2 className="font-semibold text-lg">Invite Someone to This Space</h2>
+        <form onSubmit={handleInviteToSpace} className="flex flex-col gap-2 max-w-md mt-2">
+          <input
+            type="text"
+            placeholder="0x123... address"
+            value={inviteAddress}
+            onChange={(e) => setInviteAddress(e.target.value as `0x${string}`)}
+            className="border p-2"
+          />
+          <Button type="submit" className="bg-purple-600 text-white px-4 py-2">
+            Send Invite
+          </Button>
+        </form>
+      </div>
       {/* Schedules */}
       {!hasAddress ? (
         <div className="mt-6">
