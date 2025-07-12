@@ -14,6 +14,10 @@ Welcome to the Hypergraph Calendar App! This is a simple decentralized calendar 
 - [Git](https://git-scm.com/downloads)
 - An email account (used for auth in Hypergraph)
 
+## Skipping Ahead
+
+If you wish to view the final output of this workshop, you can head to [the complete branch](https://github.com/SohZHong/hypergraph-workshop/tree/complete-build), clone it and run it.
+
 ## Getting Started
 
 ### 1. Clone the Workshop App
