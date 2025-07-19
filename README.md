@@ -23,9 +23,9 @@ If you wish to view the final output of this workshop, you can head to [the comp
 ### 1. Clone the Workshop App
 
 ```bash
-npx @graphprotocol/hypergraph-cli@latest create hypergraph-calendar-app
-cd hypergraph-calendar-app
-yarn install
+git clone https://github.com/SohZHong/hypergraph-workshop.git
+cd hypergraph-workshop
+pnpm install
 ```
 
 ### 2. Define Your Schema
